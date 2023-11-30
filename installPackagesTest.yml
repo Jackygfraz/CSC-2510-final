@@ -6,8 +6,8 @@
 #   servers with the proper packages. in this case Apache and Node.js for webServers
 #   and MariaDB for databaseServers
 ---
-- name: Setup Testing Environment
-  hosts: test_servers
+- name: Setup production web servers
+  hosts: web_server_test
   become: true
 
   tasks:
@@ -20,7 +20,16 @@
         - nodejs
         - npm
 
-    - name: Install MariaDB on Database Server
+- name: Setup database servers
+  hosts: database_server_test
+  become: true
+  tasks:
+    - name: Install Apache, Node.js, and mariaDB on Database server.
       apt:
-        name: mariadb-server
+        name: "{{ item }}"
         state: present
+      loop:
+        - apache2
+        - nodejs
+        - npm
+        - mariadb-server
