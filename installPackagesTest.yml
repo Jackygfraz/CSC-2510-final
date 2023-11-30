@@ -1,0 +1,26 @@
+#  File Name: installPackagesTest.yml
+#  Author: Jackson Frazier
+#  Use: Ansible playbook
+#  Type: .yml
+#  Purpose: This is a ansible playbook used for setting up a new or existing Testing
+#   servers with the proper packages. in this case Apache and Node.js for webServers
+#   and MariaDB for databaseServers
+---
+- name: Setup Testing Environment
+  hosts: test_servers
+  become: true
+
+  tasks:
+    - name: Install Apache and Node.js on Web Servers
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apache2
+        - nodejs
+        - npm
+
+    - name: Install MariaDB on Database Server
+      apt:
+        name: mariadb-server
+        state: present
