@@ -7,8 +7,8 @@
 #   MariaDB for databaseServers 
 
 ---
-- name: Setup Production Environment
-  hosts: prod_servers
+- name: Setup production web servers
+  hosts: web_server_prod
   become: true
 
   tasks:
@@ -21,7 +21,16 @@
         - nodejs
         - npm
 
-    - name: Install MariaDB on Database Server
+- name: Setup database servers
+  hosts: database_server_prod
+  become: true
+  tasks:
+    - name: Install Apache, Node.js, and mariaDB on Database server. 
       apt:
-        name: mariadb-server
+        name: "{{ item }}"
         state: present
+      loop:
+        - apache2
+        - nodejs
+        - npm
+        - mariadb-server
