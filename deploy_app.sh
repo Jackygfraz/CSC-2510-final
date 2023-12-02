@@ -13,7 +13,7 @@
 # global variables
 hostsFile="/etc/ansible/hosts"
 gitRepo="git@github.com:ttu-bburchfield/swollenhippofinal.git"
-
+directory="$(pwd)/swollenhippofinal"
 # Input variables
 strEnvironment=$1
 webIP=$2
@@ -102,7 +102,16 @@ case $strEnvironment in
 esac
 
 
+# Check if the git repo directory exists
+if [ -d "$directory" ]; then
+    echo "Directory already exists."
+else
+    git clone https://github.com/ttu-bburchfield/swollenhippofinal.git
+fi
+
+
 # section will be used to copy and find the branch from github repo
 
-
+testVar=$(cd swollenhippofinal ; git checkout $strEnvironment ; cat index.html)
+echo "$testVar"
 # section will be used to deploy the web application taken from the git repo
