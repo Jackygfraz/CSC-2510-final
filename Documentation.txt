@@ -1,0 +1,23 @@
+This is the Official documentation for  Automated Server Configuration, Deployment,
+ and Maintenance for Multiple Environments by SwollenHuppo Enterprise
+
+        Instructions:
+        1) Open your Managment server and ensure ansible is installed. 
+        2) if your ssh key has been set up then clone the following repository 
+           (github. git@github.com:Jackygfraz/CSC-2510-final.git). otherwise navigate
+           to https://github.com/Jackygfraz/CSC-2510-final to  download and run the
+           create_new_ssh_key.sh file. Ensure it has been given proper permissions
+           with chmod. 
+        3) This new repo contains the file deploy_app.sh which will need to be given 
+           proper permissions and then can be run with one input, this input being
+           the enviroment type being created. (Dev, Test,or Prod) this script will then
+           ask the user for their servers IP addresses so that the hosts file can be 
+           properly organized for ansible on any device. it will then
+           run the properly given ansible playbook to set up a specific set of servers
+
+
+
+    Error Code List
+        1) Code for standard fail case 
+        2) Code for an invalid enviroment type being sent to deploy_app.sh
+        3) Code for when a bad IP address is entered. deploy_app.sh will print which was entered incorrectly.

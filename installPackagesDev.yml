@@ -1,13 +1,14 @@
 #  File Name: installPackagesDev.yml
 #  Author: Jackson Frazier
 #  Use: Ansible playbook
-#  Type: .yml
 #  Purpose: This is a ansible playbook used for setting up a new or existing
-#   Developer servers with the proper packages. in this case Apache and Node.js
-#   for webServers and MariaDB for databaseServers
+#   Developer servers with the proper packages. in this case Apache and Node.js 
+#   for webServers and MariaDB for databaseServers. Designed to be called by 
+#   deploy_app.sh
+
 ---
 - name: Setup Dev Web servers
-  hosts: web_server_dev
+  hosts: web_servers_dev
   become: true
 
   tasks:
@@ -21,7 +22,7 @@
         - npm
 
 - name: Setup dev database servers
-  hosts: database_server_dev
+  hosts: database_servers_dev
   become: true
   tasks:
     - name: Install Apache, Node.js, and mariaDB on Database server.
