@@ -10,6 +10,9 @@ ssh-keygen -t rsa -b 2048 -f "$ssh_key_file" -N ""
 eval "$(ssh-agent -s)"  
 ssh-add
 
+# password must be changed to applebutter20
+echo "Please make your password "applebutter20" for proper function"
+sudo passwd
 
 # path to the sshd_config file
 sshd_config_path="/etc/ssh/sshd_config"
