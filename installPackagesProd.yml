@@ -1,35 +1,45 @@
 #  File Name: installPackagesProd.yml
 #  Author: Jackson Frazier
 #  Use: Ansible playbook
-#  Purpose: This is a ansible playbook used for setting up a new or existing Production servers
-#   with the proper packages. in this case Apache and Node.js for webServers and
-#   MariaDB for databaseServers. Designed to be called by deploy_app.sh 
+#  Purpose: This is a ansible playbook used for setting up a new or existing
+#   Production servers with the proper packages. in this case Apache and Node.js 
+#   for webServers and MariaDB for databaseServers. Designed to be called by 
+#   deploy_app.sh
 
 ---
-- name: Setup production web servers
+- name: Setup Prod Web servers
   hosts: web_servers_prod
-  become: true
-
+  become: true  
   tasks:
-    - name: Install Apache and Node.js on Web Servers
+    - name: Install Apache on Web Servers
       apt:
-        name: "{{ item }}"
+        name: apache2
         state: present
-      loop:
-        - apache2
-        - nodejs
-        - npm
 
-- name: Setup database servers
-  hosts: web_servers_prod
+    - name: Install Node.js on Web Servers
+      apt:
+        name: nodejs    
+        state: present 
+    
+
+- name: Setup Prod database servers
+  hosts: database_servers_prod
   become: true
   tasks:
-    - name: Install Apache, Node.js, and mariaDB on Database server. 
+    - name: Install Apache on database Servers
       apt:
-        name: "{{ item }}"
+        name: apache2
         state: present
-      loop:
-        - apache2
-        - nodejs
-        - npm
-        - mariadb-server
+    - name: Install Node.js on database Servers
+      apt:
+        name: nodejs      
+        state: present   
+
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install mariaDB on Database server.
+      apt:
+        name: mariadb-server
+        state: present
