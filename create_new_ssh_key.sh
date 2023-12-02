@@ -9,3 +9,5 @@ ssh-keygen -t rsa -b 2048 -f "$ssh_key_file" -N ""
 eval "$(ssh-agent -s)"  
 
 ssh-add
+
+sudo apt install sshpass
