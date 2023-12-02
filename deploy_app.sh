@@ -25,18 +25,7 @@ databaseIP=$3
 
 #************************************FUNCTION LIST************************************
 
-# Function to Check if Ansible is installed
-ansible_check() {
-# Check if Ansible is installed
-if command -v ansible &> /dev/null; then
-    echo "Ansible is already installed."
-else
-    # Install Ansible
-    echo "Ansible is not installed. Installing..."
-    sudo apt install ansible
-    echo "Ansible has been installed."
-fi
-}
+
 
 # function that streamlines error handling by exiting with chosen case
 error_quit() {
@@ -59,8 +48,7 @@ is_valid_ip() {
 }
 
 #************************************End Of LIST************************************
-# Ansible must be installed for this code to work so this function checks if it is else installs it 
-ansible_check
+
 
 # This if statement validates that the user inputed a type of server or exit with code 2
 if [ "$strEnvironment" != "dev" ] && [ "$strEnvironment" != "prod" ] && [ "$strEnvironment" != "test" ]; then
