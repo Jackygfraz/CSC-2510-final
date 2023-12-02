@@ -33,8 +33,7 @@ if command -v ansible &> /dev/null; then
 else
     # Install Ansible
     echo "Ansible is not installed. Installing..."
-    sudo apt update
-    sudo apt install -y ansible
+    sudo apt install ansible
     echo "Ansible has been installed."
 fi
 }
