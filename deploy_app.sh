@@ -76,11 +76,21 @@ fi
 
 # This section is used for  appending the given servers to the hosts file# 
 
-#echo "# Start of new Host groups" > $hostsFile # used to reset the current hosts file
-echo "[web_servers_$strEnvironment]" >> $hostsFile
-echo -e "$webIP\n" >> $hostsFile
-echo "[database_servers_$strEnvironment]" >> $hostsFile
-echo -e "$databaseIP/n" >> $hostsFile
+# web server setup
+echo "# Start of new Host groups" > $hostsFile # used to reset the current hosts file
+echo " [web_servers_$strEnvironment]" >> $hostsFile
+echo -e " $webIP\n" >> $hostsFile
+echo " [web_servers_$strEnvironment:vars]" >> $hostsFile
+echo " ansible_user=root" >> $hostsFile
+echo -e " ansible_password=applebutter20\n" >> $hostsFile
+
+# database setup
+echo " [database_servers_$strEnvironment]" >> $hostsFile
+echo -e " $databaseIP\n" >> $hostsFile
+echo " [database_servers_$strEnvironment:vars]" >> $hostsFile
+echo " ansible_user=root" >> $hostsFile
+echo -e " ansible_password=applebutter20\n" >> $hostsFile
+
 
 
 # This section runs the appropriate Ansible playbook based on the environment given
