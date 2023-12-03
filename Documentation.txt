@@ -19,7 +19,9 @@ This is the Official documentation for  Automated Server Configuration, Deployme
               terminal to be copied All other essentials will be installed as well. Multiple 
               configurations to 2 diffrent files (ansible.cfg and sshd_config) in etc directory will 
               also be made
-        5) Ensure all files are given proper permissions before use with chmod 755 or similar commands.
+        5) Remote servers (i.e Web and Database) must be setup using the file configure_remote_servers.sh
+           from the previous git repo. 
+       6) Ensure all files are given proper permissions before use with chmod 755 or similar commands.
        
 
         Instructions:
