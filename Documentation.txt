@@ -32,13 +32,12 @@ This is the Official documentation for  Automated Server Configuration, Deployme
                 proper permissions and then can be run with 5 inputs, these inputs being
                 the enviroment type being created (Dev, Test,or Prod), followed by
                 the internal IP addresses for their Environments Web server and lastly their 
-                Database server.
+                Database server. Note: This scrip MUST be run with sudo or equivelent permissions.
     
         4)  This script will then validate the IP addresses as standard IPv4 addresses.
-             After validation the script will configure the anisble hosts file for the given 
-            IP addresses
-5) 
-    run the properly given ansible playbook to set up a specific set of servers
+             After validation the script will add the hosts to the ansible hosts file. 
+        5) Following this it will run the properly given ansible playbook to set up the given servers with 
+            the proper applications. 
 
 
 
