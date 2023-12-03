@@ -1,5 +1,12 @@
 #!/bin/bash
 # script sets up the host ansible server 
+
+# variable list
+
+ssh_key_file="$HOME/.ssh/id_rsa"             # Set the SSH key file path
+ansible_cfg_path="/etc/ansible/ansible.cfg"  # path to the ansible.cfg file
+sshd_config_path="/etc/ssh/sshd_config"      # path to the sshd_config file
+
 echo "when prompted always say type for proper installation"
 # install git to server
 sudo yum install git
@@ -31,9 +38,6 @@ else
 fi
 
 
-# Set the SSH key file path
-ssh_key_file="$HOME/.ssh/id_rsa"
-
 
 # Generate SSH key with no passphrase
 ssh-keygen -t rsa -b 2048 -f "$ssh_key_file" -N ""
@@ -46,8 +50,7 @@ ssh-add
 echo "Please make your password "applebutter20" for proper function"
 sudo passwd
 
-# path to the sshd_config file
-sshd_config_path="/etc/ssh/sshd_config"
+
 
 # Check if the file exists
 if [ -e "$sshd_config_path" ]; then
