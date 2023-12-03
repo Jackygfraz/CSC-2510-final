@@ -64,7 +64,7 @@ if [ -e "$sshd_config_path" ]; then
         echo "PermitRootLogin changed to yes in $sshd_config_path"
         echo "PasswordAuthentication changed to yes in $sshd_config_path"
         # Restart the SSH service to apply changes
-        sudo service ssh restart
+        sudo systemctl restart sshd
     else
         echo "Failed to change configurations in $sshd_config_path"
     fi
