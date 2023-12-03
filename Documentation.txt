@@ -3,13 +3,17 @@ This is the Official documentation for  Automated Server Configuration, Deployme
 
         prerequisites:
         1) The Ansible Management server must be in linux CentOS7 operating system for this project to
-             function properly
+             function properly. This server will also need ansible.
         2) git must be installed to this same Management server to be able to clone a repository
         3) ssh keys are essential for this to run properly. Therefore they must be set up before
              attempting to run deploy_app.sh. 
-           3a) to set up a basic ssh key simply use the commands ssh-keygen ; cat .ssh/id_rsa.pub 
-                 in order to get the proper ssh key that needs to be added to your personal github 
-                 account to clone the repository given properly
+        4) To set up a basic ssh key and install the proper applications use this link to github
+              ( )
+              in order to get the proper ssh key that needs to be added to your personal github
+              this script will print it to the terminal to be copied. all other essentials will be 
+              installed. Multiple configurations to 2 diffrent files in etc directory will alos be made
+          
+       
 
         Instructions:
         1) Open your Managment server and ensure ansible is installed. 
