@@ -5,39 +5,39 @@
 #   servers with the proper packages. in this case Apache and Node.js for webServers
 #   and MariaDB for databaseServers. Designed to be called by deploy_app.sh
 ---
-- name: Setup Test Web servers
+- name: Setup test Web servers
   hosts: web_servers_test
-  become: true  
+  become: true
   tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+    - name: Install Node.js on Web Servers
+      apt:
+        name: nodejs
+        state: present
     - name: Install Apache on Web Servers
       apt:
         name: apache2
         state: present
 
-    - name: Install Node.js on Web Servers
-      apt:
-        name: nodejs    
-        state: present 
-    
-
-- name: Setup Test database servers
+- name: Setup test Database servers
   hosts: database_servers_test
   become: true
   tasks:
-    - name: Install Apache on database Servers
-      apt:
-        name: apache2
-        state: present
-    - name: Install Node.js on database Servers
-      apt:
-        name: nodejs      
-        state: present   
-
     - name: Update apt package cache
       apt:
         update_cache: yes
+    - name: Install Node.js on Database Servers
+      apt:
+        name: nodejs
+        state: present
+    - name: Install Apache on Database Servers
+      apt:
+        name: apache2
+        state: present
 
-    - name: Install mariaDB on Database server.
+    - name: Install MariaDB on Database server.
       apt:
         name: mariadb-server
         state: present
