@@ -46,6 +46,8 @@ ssh-keygen -t rsa -b 2048 -f "$ssh_key_file" -N ""
 eval "$(ssh-agent -s)"  
 ssh-add
 
+# The ssh key MUST be added to a github account
+read -p "Stop here and take a moment to add this ssh key to your github account. Press enter to continue: " enterKey
 # password must be changed to applebutter20
 echo "Please make your password "applebutter20" for proper function"
 sudo passwd
