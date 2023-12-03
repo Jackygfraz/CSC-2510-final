@@ -1,6 +1,6 @@
 #!/bin/bash
-# sets up the host ansible server 
-
+# script sets up the host ansible server 
+echo "when prompted always say type for proper installation"
 # install git to server
 sudo yum install git
 
