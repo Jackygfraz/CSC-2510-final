@@ -92,17 +92,16 @@ echo " ansible_user=root" >> $hostsFile
 echo -e " ansible_password=applebutter20\n" >> $hostsFile
 
 
-
 # This section runs the appropriate Ansible playbook based on the environment given
 case $strEnvironment in
-    "dev") ansible-playbook installPackagesDev.yml ;;
+    "dev") ansible-playbook installPackagesDev.yml  ;;
     "test") ansible-playbook installPackagesTest.yml ;;
     "prod") ansible-playbook installPackagesProd.yml  ;;
     *) error_quit "2" ;;
 esac
 
 
-# Check if the git repo directory exists
+# Statement to check if the directory exists. if not then clone it, if so then say it exists
 if [ -d "$directory" ]; then
     echo "Directory already exists."
 else
@@ -111,7 +110,6 @@ fi
 
 
 # section will be used to copy and find the branch from github repo
-
 testVar=$(cd swollenhippofinal ; git checkout $strEnvironment ; cat index.html)
 echo "$testVar"
 # section will be used to deploy the web application taken from the git repo
