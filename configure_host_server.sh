@@ -14,6 +14,23 @@ else
     sudo yum install ansible
     echo "Ansible has been installed."
 fi
+
+# make essential changes to the ansible.cfg file 
+if [ -e "$ansible_cfg_path" ]; then
+    # Use sed to replace #host_key_checking = False with host_key_checking = False "
+    sudo sed -i 's/^#host_key_checking = False/host_key_checking = False/' "$ansible_cfg_path"
+
+    # Check if the sed command was successful
+    if [ $? -eq 0 ]; then
+        echo "#host_key_checking = False uncommented in $ansible_cfg_path"
+    else
+        echo "Failed to change configurations in $ansible_cfg_path"
+    fi
+else
+    echo "ansible.cfg file not found at $sshd_config_path"
+fi
+
+
 # Set the SSH key file path
 ssh_key_file="$HOME/.ssh/id_rsa"
 
