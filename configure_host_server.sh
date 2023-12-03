@@ -1,6 +1,10 @@
 #!/bin/bash
 # sets up the host ansible server 
-sudo yum install cron -y
+
+# ensure Cron is installed
+sudo yum install cronie
+sudo systemctl start crond
+sudo systemctl enable crond
 # install git to server
 sudo yum install git
 
