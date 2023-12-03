@@ -2,26 +2,32 @@ This is the Official documentation for  Automated Server Configuration, Deployme
  and Maintenance for Multiple Environments by SwollenHuppo Enterprise
 
         prerequisites:
-        1) The Ansible Management server must be in linux CentOS7 operating system for this project to
-             function properly. This server will also need ansible.
-        2) git must be installed to this same Management server to be able to clone a repository
+        1) At least three servers that are A ansible managmement server, a web server and a database server.
+             The Ansible Management server must be in linux CentOS7 operating system for this project to
+             function properly. This server will also need ansible. The other two shoukld be in debian
+             or similar systems. 
+
+        2) git must be installed to the Management server to be able to clone a repository
+
         3) ssh keys are essential for this to run properly. Therefore they must be set up before
-             attempting to run deploy_app.sh. 
+              attempting to run deploy_app.sh which is the primary file in this project. 
+
         4) To set up a basic ssh key and install the proper applications use this link to github
-              ( )
-              in order to get the proper ssh key that needs to be added to your personal github
-              this script will print it to the terminal to be copied. all other essentials will be 
-              installed. Multiple configurations to 2 diffrent files in etc directory will alos be made
-          
+              (https://github.com/Jackygfraz/CSC-2510-final.git) and download configure_host_server.sh
+              or use the same file in the folder given with the project. In order to get the proper 
+              ssh key that needs to be added to your personal github this script will print it to the
+              terminal to be copied All other essentials will be installed as well. Multiple 
+              configurations to 2 diffrent files (ansible.cfg and sshd_config) in etc directory will 
+              also be made
+        5) Ensure all files are given proper permissions before use with chmod 755 or similar commands.
        
 
         Instructions:
-        1) Open your Managment server and ensure ansible is installed. 
-        2) if your ssh key has been set up then clone the following repository 
-           (github. git@github.com:Jackygfraz/CSC-2510-final.git). otherwise navigate
-           to https://github.com/Jackygfraz/CSC-2510-final to  download and run the
-           create_new_ssh_key.sh file. Ensure it has been given proper permissions
-           with chmod. 
+        1) Open your Managment server and ensure ansible is installed. with ansible --version
+        2) Skip this step if the repository is already on your system.
+           Assuming your ssh key has been set up, clone the following repository 
+           (github. git@github.com:Jackygfraz/CSC-2510-final.git). 
+      
         3) This new repo contains the file deploy_app.sh which will need to be given 
            proper permissions and then can be run with one input, this input being
            the enviroment type being created. (Dev, Test,or Prod) this script will then
