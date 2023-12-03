@@ -1,8 +1,9 @@
 #!/bin/bash
 # sets up the host ansible server 
-
+yum install cron -y
 # install git to server
 sudo yum install git
+
 # install ansible 
 if command -v ansible &> /dev/null; then
     echo "Ansible is already installed."
