@@ -28,12 +28,17 @@ This is the Official documentation for  Automated Server Configuration, Deployme
            Assuming your ssh key has been set up, clone the following repository 
            (github. git@github.com:Jackygfraz/CSC-2510-final.git). 
       
-        3) This new repo contains the file deploy_app.sh which will need to be given 
-           proper permissions and then can be run with one input, this input being
-           the enviroment type being created. (Dev, Test,or Prod) this script will then
-           ask the user for their servers IP addresses so that the hosts file can be 
-           properly organized for ansible on any device. it will then
-           run the properly given ansible playbook to set up a specific set of servers
+        3)  This new repo contains the file deploy_app.sh which will need to be given 
+                proper permissions and then can be run with 5 inputs, these inputs being
+                the enviroment type being created (Dev, Test,or Prod), followed by
+                the internal IP addresses for their Environments Web server and lastly their 
+                Database server.
+    
+        4)  This script will then validate the IP addresses as standard IPv4 addresses.
+             After validation the script will configure the anisble hosts file for the given 
+            IP addresses
+5) 
+    run the properly given ansible playbook to set up a specific set of servers
 
 
 
