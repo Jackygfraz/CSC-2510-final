@@ -8,8 +8,7 @@ ansible_cfg_path="/etc/ansible/ansible.cfg"  # path to the ansible.cfg file
 sshd_config_path="/etc/ssh/sshd_config"      # path to the sshd_config file
 
 echo "when prompted always say type for proper installation"
-# install git to server
-sudo yum install git
+
 
 # install ansible 
 if command -v ansible &> /dev/null; then
