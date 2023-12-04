@@ -58,20 +58,21 @@ else
         echo "Valid Environment"
 fi
 
+
 # this section takes user input of their list of server IPs to be appended to the 
 # users hosts file and grouped. Also validates ip addresses
         
 # Check if input is valid for web server
-if [ $? -ne 0 ]; then
-        echo "Error 3: invalid Web server IP"
-        exit 3
-fi
-
-# Check if input is valid for database server
-if [ $? -ne 0 ]; then
-        echo "Error 3: invalid Database server IP"
-        exit 3
-fi
+# Loop through the provided IP addresses and validate them
+for ip_address in "$webIP" "$databaseIP"; do
+    # Validate the entered IP address
+    if is_valid_ip "$ip_address"; then
+        echo "Valid IP address: $ip_address"
+    else
+        echo "Invalid IP address: $ip_address"
+        error_quit "2"  # Exit the script if any IP address is invalid
+    fi
+done
 
 
 # This section is used for  appending the given servers to the hosts file# 
