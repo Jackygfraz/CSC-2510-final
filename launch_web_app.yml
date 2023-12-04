@@ -1,0 +1,23 @@
+# File name: launch_web_app.yml 
+# Author: Jackson Frazier
+# Purpose: This ansible playbook is essential to the operation of deploy_app.sh as this playbook
+# replaces a servers existing index.html file with a new one that contains a new web app pulled 
+# from a remote repository called swollenhippofinal. After replacing index.html this file restarts 
+# the apache service in order to apply the changes made.
+
+---
+- name: Launch Web Application with Apache
+  hosts: web_servers_dev
+  become: yes
+
+  tasks:
+    # this html file index.html is a web application that will replace the existing default application
+    - name: Copy HTML file to the remote host
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+    # restarts the apache service in order to apply the changes made to index.html
+    - name: Restart Apache service
+      systemd:
+        name: apache2
+        state: restarted
