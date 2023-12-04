@@ -110,6 +110,20 @@ fi
 
 
 # section will be used to copy and find the branch from github repo
-testVar=$(cd swollenhippofinal ; git checkout $strEnvironment ; cat index.html)
-echo "$testVar"
-# section will be used to deploy the web application taken from the git repo
+siteData=$(cd swollenhippofinal ; git checkout $strEnvironment ; cat index.html)
+#echo "$siteData"
+
+# section is  used to deploy the web application taken from the git repo
+
+echo "$siteData" > index.html
+
+ansible-playbook launch_web_app.yml
+
+
+
+# section makes a cron job to check if all of the servers applications are up to date every minute
+
+#chmod +x check_for_updates.sh
+#cronDirectory="$currentDir/check_for_updates.sh"
+#echo "$cronDirectory"
+#(crontab -l ; echo "* * * * * $cronDirectory") | crontab -
