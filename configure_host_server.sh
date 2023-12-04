@@ -52,7 +52,17 @@ read -p "Stop here and take a moment to add this ssh key to your github account.
 echo "Please make your password "applebutter20" for proper function"
 sudo passwd
 
+# This repository is essential to the rest of this application
+gitDirectory="/home/$user/CSC-2510-final"
 
+# Check if the directory exists
+if [ -d "$gitDirectory" ]; then
+    echo "The directory $gitDirectory exists."
+else
+    echo "Cloning git repo CSC-2510-final."
+    git clone https://github.com/Jackygfraz/CSC-2510-final.git
+fi
+ 
 
 # Check if the file exists
 if [ -e "$sshd_config_path" ]; then
