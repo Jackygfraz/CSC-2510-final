@@ -4,9 +4,11 @@
 # Purpose: This file is made to be called by cron to run a automated check on all
 # installed applications on a server
 
+# exact directory to files
+dir="$HOME/CSC-2510-final"
 # check dev servers
-ansible-playbook installPackagesDev.yml
+ansible-playbook "$dir/installPackagesDev.yml"
 # check test servers
-ansible-playbook installPackagesTest.yml
+ansible-playbook "$dir/installPackagesTest.yml"
 # check prod servers
-ansible-playbook installPackagesProd.yml
+ansible-playbook "$dir/installPackagesProd.yml"
