@@ -9,9 +9,14 @@
   hosts: web_servers_test
   become: true
   tasks:
+        # ensures packages cache is up to date
     - name: Update apt package cache
       apt:
         update_cache: yes
+         # this task was added due to a bug where the dpkg package manager would lock installation completely
+    - name: Wait for APT Lock
+      shell:  while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+    
     - name: Install Node.js on Web Servers
       apt:
         name: nodejs
@@ -25,9 +30,14 @@
   hosts: database_servers_test
   become: true
   tasks:
+    
     - name: Update apt package cache
       apt:
         update_cache: yes
+      # this task was added due to a bug where the dpkg package manager would lock installation completely
+    - name: Wait for APT Lock
+      shell:  while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+      
     - name: Install Node.js on Database Servers
       apt:
         name: nodejs
