@@ -4,18 +4,15 @@ This is the Official documentation for  Automated Server Configuration, Deployme
         prerequisites:
         1) At least three servers that are A ansible managmement server, a web server and a database server.
              The Ansible Management server must be in linux CentOS7 operating system for this project to
-             function properly. This server will also need ansible. The other two should be in debian
-             or similar systems. 
+             function properly. The other two should be in debian or similar systems. 
 
         2) git must be installed to the Management server to be able to clone a repository
 
-        3) ssh keys are essential for this to run properly. Therefore they must be set up before
-              attempting to run deploy_app.sh which is the primary file in this project. 
-
-        4) Remote servers (i.e Web and Database) must be setup using the file configure_remote_servers.sh
+        3) Remote servers (i.e Web and Database) must be setup using the file configure_remote_servers.sh
            from the previous git repo in order to establish ssh connection. This will prompt you for a specific
            new password and create an ssh key for the server. 
-        5) Ensure all files are given proper permissions before use with chmod 755 or similar commands.
+
+        4) Ensure all files are given proper permissions before use with chmod 755 or similar commands.
        
 
         Instructions for host server:
