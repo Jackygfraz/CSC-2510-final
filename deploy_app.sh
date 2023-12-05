@@ -41,6 +41,21 @@ is_valid_ip() {
     fi
 }
 
+# this function checks if the ansible ping function has connection to server. if not then exit with code 4
+check_server() {
+    local server=$1
+    echo "Pinging $server..."
+    
+    # Use ping with a count of 1 and a timeout of 1 second
+    if ping -c 1 -W 1 "$server" > /dev/null; then
+        echo "$server is reachable."
+    else
+        echo "Error: $server is not reachable. Exiting."
+        exit 4
+    fi
+}
+
+
 #************************************End Of LIST************************************
 
 # This section named Setup is used to prep the host server with the nessary applications
@@ -151,6 +166,11 @@ echo " [database_servers_$strEnvironment:vars]" >> $hostsFile
 echo " ansible_user=root" >> $hostsFile
 echo -e " ansible_password=applebutter20\n" >> $hostsFile
 
+# Debugging: This tests if their is connection to the servers before the playbooks are launched. if 
+# this test fails the program terminates with code 4
+echo "Ensuring all servers are reachable..."
+for $server in "webIP" "databaseIP" ; do
+    check_server "$server"
 # This sub section runs the appropriate Ansible playbook based on the environment given
 case $strEnvironment in
     "dev") ansible-playbook installPackagesDev.yml  ;;
@@ -159,8 +179,7 @@ case $strEnvironment in
     *) exit 2 ;;
 esac
 
-# sub section will be used to copy and find the branch from github repo
-
+# sub section will be used to copy and find the branch from github repo.
 # This if statement to check if the directory exists. if not then clone it, if so then say it exists
 if [ -d "$swollenhippoDirectory" ]; then
     echo "Directory already exists."
