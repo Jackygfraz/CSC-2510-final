@@ -168,9 +168,12 @@ echo -e " ansible_password=applebutter20\n" >> $hostsFile
 
 # Debugging: This tests if their is connection to the servers before the playbooks are launched. if 
 # this test fails the program terminates with code 4
+
 echo "Ensuring all servers are reachable..."
-for $server in "webIP" "databaseIP" ; do
+for server in "$webIP" "$databaseIP" ; do
     check_server "$server"
+done
+
 # This sub section runs the appropriate Ansible playbook based on the environment given
 case $strEnvironment in
     "dev") ansible-playbook installPackagesDev.yml  ;;
@@ -181,7 +184,7 @@ esac
 
 # sub section will be used to copy and find the branch from github repo.
 # This if statement to check if the directory exists. if not then clone it, if so then say it exists
-if [ -d "$swollenhippoDirectory" ]; then
+if [ -d "$swollenHippoDirectory" ]; then
     echo "Directory already exists."
 else
     git clone https://github.com/ttu-bburchfield/swollenhippofinal.git
