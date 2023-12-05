@@ -14,7 +14,15 @@ This is the Official documentation for  Automated Server Configuration, Deployme
 
         4) Ensure all files are given proper permissions before use with chmod 755 or similar commands.
        
+        Instructions for Remote server:
+        1) The first steps on the remote servers must be manually done. Navigate to https://github.com/Jackygfraz/CSC-2510-final.git
+           and find the file configure_remote_servers.sh. Copy or download this file into each remote server and use chmod to give it
+           executable permissions. 
+        2) execute the file configure_remote_servers.sh and follow along with its prompts to properly set up the remote servers
 
+        3) this configures sshd.config and adds an ssh key to the server. The user must also create a password (applebutter20) that is
+           used across all your server.
+       
         Instructions for host server:
         1)  use this link to github (https://github.com/Jackygfraz/CSC-2510-final.git) to clone this repository.
             To set up a basic ssh key and install the proper applications
