@@ -1,5 +1,11 @@
-#!/bin/bash
+# Filename: configure_remote_servers.sh
+# Author: Jackson Frazier
+# Use: shell script
+# Purpose: This script is used on a remote server in order to set up many server configurations
+# without this SSH, password, ansible.cfg and sshd.config will need to be manually adjusted.  
 
+
+#!/bin/bash
 # Set the SSH key file path
 ssh_key_file="$HOME/.ssh/id_rsa"
 
