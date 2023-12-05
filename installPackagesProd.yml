@@ -12,6 +12,10 @@
     - name: Update apt package cache
       apt:
         update_cache: yes
+    # this task was added due to a bug where the dpkg package manager would lock installation completely
+    - name: Wait for APT Lock
+      shell:  while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+      
     - name: Install Node.js on Web Servers
       apt:
         name: nodejs
@@ -28,6 +32,10 @@
     - name: Update apt package cache
       apt:
         update_cache: yes
+   # this task was added due to a bug where the dpkg package manager would lock installation completely
+    - name: Wait for APT Lock
+      shell:  while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+      
     - name: Install Node.js on Database Servers
       apt:
         name: nodejs
