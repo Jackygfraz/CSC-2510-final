@@ -1,5 +1,6 @@
 # File name: launch_web_app.yml 
 # Author: Jackson Frazier
+# Use: Ansible Playbook
 # Purpose: This ansible playbook is essential to the operation of deploy_app.sh as this playbook
 # replaces a servers existing index.html file with a new one that contains a new web app pulled 
 # from a remote repository called swollenhippofinal. After replacing index.html this file restarts 
