@@ -11,34 +11,28 @@
 #   web service application for an apache server to host
 
 # global variables
-hostsFile="/etc/ansible/hosts"
-gitRepo="git@github.com:ttu-bburchfield/swollenhippofinal.git"
-directory="$(pwd)/swollenhippofinal"
+hostsFile="/etc/ansible/hosts"                                 # directory of the ansible hosts file 
+gitRepo="git@github.com:ttu-bburchfield/swollenhippofinal.git" # the url of the git repo containing the web application
+swollenHippoDirectory="$(pwd)/swollenhippofinal"               # directory to the swollenhippo repo
+ssh_key_file="$HOME/.ssh/id_rsa"                               # Set the SSH key file path
+ansible_cfg_path="/etc/ansible/ansible.cfg"                    # path to the ansible.cfg file
+sshd_config_path="/etc/ssh/sshd_config"                        # path to the sshd_config file
+workingDirectory=$(pwd)                                        # contains current working directory as string
+cronDir="$workingDirectory/check_for_updates.sh"               # directory for the cron job application to be applied at
 # Input variables
 strEnvironment=$1
 webIP=$2
 databaseIP=$3
 
 
-# statement kept to test input when uncommented
+# DEBUG: statement kept to test input when uncommented
 #echo "$strEnvironment"
-
 #************************************FUNCTION LIST************************************
-
-
-
-# function that streamlines error handling by exiting with chosen case
-error_quit() {
-    code= $1
-    echo "Exit with Error $1"
-    exit $1
-}
-
 
 # Function to check if a string is a valid IP address
 is_valid_ip() {
     local ip=$1
-    local ip_regex="^([0-9]{1,3}\.){3}[0-9]{1,3}$"
+    local ip_regex="^([0-9]{1,3}\.){3}[0-9]{1,3}$" # identifies the ip as a ipv4
 
     if [[ $ip =~ $ip_regex ]]; then
         return 0  # Valid IP address
@@ -49,15 +43,13 @@ is_valid_ip() {
 
 #************************************End Of LIST************************************
 
-#**************************************SETUP*******************************
-# variable list
+# This section named Setup is used to prep the host server with the nessary applications
+# in order for the main script to operate properly. The key componets are installing ansible,
+# configuring sshd_config, changing ansible.cfg, setting up a ssh key, and creating a new password 
+# for the system.
+#***************************************SETUP***************************************
 
-ssh_key_file="$HOME/.ssh/id_rsa"             # Set the SSH key file path
-ansible_cfg_path="/etc/ansible/ansible.cfg"  # path to the ansible.cfg file
-sshd_config_path="/etc/ssh/sshd_config"      # path to the sshd_config file
-
-
-# install ansible 
+# install ansible. also checks if it is installed
 if command -v ansible &> /dev/null; then
     echo "Ansible is already installed."
 else
@@ -83,8 +75,6 @@ else
     echo "ansible.cfg file not found at $sshd_config_path"
 fi
 
-
-
 # Generate SSH key with no passphrase
 ssh-keygen -t rsa -b 2048 -f "$ssh_key_file" -N ""
 
@@ -92,23 +82,9 @@ ssh-keygen -t rsa -b 2048 -f "$ssh_key_file" -N ""
 eval "$(ssh-agent -s)"  
 ssh-add
 
-# The ssh key MUST be added to a github account
-read -p "Stop here and take a moment to add this ssh key to your github account. Press enter to continue: " enterKey
 # password must be changed to applebutter20
 echo "Please make your password "applebutter20" for proper function"
 sudo passwd
-
-# This repository is essential to the rest of this application
-gitDirectory="/home/$user/CSC-2510-final"
-
-# Check if the directory exists
-if [ -d "$gitDirectory" ]; then
-    echo "The directory $gitDirectory exists."
-else
-    echo "Cloning git repo CSC-2510-final."
-    git clone https://github.com/Jackygfraz/CSC-2510-final.git
-fi
- 
 
 # Check if the file exists
 if [ -e "$sshd_config_path" ]; then
@@ -129,8 +105,12 @@ if [ -e "$sshd_config_path" ]; then
 else
     echo "sshd_config file not found at $sshd_config_path"
 fi
-#**************************************************************************
 
+#*************************************End of Setup******************************************
+
+# Main is the primary section of the file that is used to create, edit and use the web application pulled
+# from a github repository and then create a cron job to check for updates on remote servers
+#*******************************************Main********************************************
 # This if statement validates that the user inputed a type of server or exit with code 2
 if [ "$strEnvironment" != "dev" ] && [ "$strEnvironment" != "prod" ] && [ "$strEnvironment" != "test" ]; then
     echo "Invalid environment. Please enter 'dev', 'prod', or 'test'."
@@ -139,9 +119,9 @@ else
         echo "Valid Environment"
 fi
 
-# this section takes user input of their list of server IPs to be appended to the 
+# this Sub section takes user input of their list of server IPs to be appended to the 
 # users hosts file and grouped. Also validates ip addresses
-        
+
 # Check if input is valid for web server
 # Loop through the provided IP addresses and validate them
 for ip_address in "$webIP" "$databaseIP"; do
@@ -150,13 +130,13 @@ for ip_address in "$webIP" "$databaseIP"; do
         echo "Valid IP address: $ip_address"
     else
         echo "Invalid IP address: $ip_address"
-        error_quit "2"  # Exit the script if any IP address is invalid
+        exit 2  # Exit the script if any IP address is invalid
     fi
 done
 
-# This section is used for  appending the given servers to the hosts file# 
+# *** This sub section is used for  appending the given servers to the hosts file ***
 
-# web server setup
+# web server setup on host file
 echo "# Start of new Host groups" > $hostsFile # used to reset the current hosts file
 echo " [web_servers_$strEnvironment]" >> $hostsFile
 echo -e " $webIP\n" >> $hostsFile
@@ -164,46 +144,41 @@ echo " [web_servers_$strEnvironment:vars]" >> $hostsFile
 echo " ansible_user=root" >> $hostsFile
 echo -e " ansible_password=applebutter20\n" >> $hostsFile
 
-# database setup
+# database setup on host file
 echo " [database_servers_$strEnvironment]" >> $hostsFile
 echo -e " $databaseIP\n" >> $hostsFile
 echo " [database_servers_$strEnvironment:vars]" >> $hostsFile
 echo " ansible_user=root" >> $hostsFile
 echo -e " ansible_password=applebutter20\n" >> $hostsFile
 
-
-# This section runs the appropriate Ansible playbook based on the environment given
+# This sub section runs the appropriate Ansible playbook based on the environment given
 case $strEnvironment in
     "dev") ansible-playbook installPackagesDev.yml  ;;
-    "test") ansible-playbook installPackagesTest.yml ;;
-    "prod") ansible-playbook installPackagesProd.yml  ;;
-    *) error_quit "2" ;;
+    "test") ansible-playbook installPackagesTest.yml;;
+    "prod") ansible-playbook installPackagesProd.yml;;
+    *) exit 2 ;;
 esac
 
+# sub section will be used to copy and find the branch from github repo
 
-# Statement to check if the directory exists. if not then clone it, if so then say it exists
-if [ -d "$directory" ]; then
+# This if statement to check if the directory exists. if not then clone it, if so then say it exists
+if [ -d "$swollenhippoDirectory" ]; then
     echo "Directory already exists."
 else
     git clone https://github.com/ttu-bburchfield/swollenhippofinal.git
 fi
 
-
-# section will be used to copy and find the branch from github repo
 siteData=$(cd swollenhippofinal ; git checkout $strEnvironment ; cat index.html)
-#echo "$siteData"
+#echo "$siteData" # Debug: Ensure the index.html file holds the correct data
 
 # section is  used to deploy the web application taken from the git repo
-
-echo "$siteData" > index.html
-
+echo "$siteData" > index.html # sends the data from swollenhippo to the index.html file
 ansible-playbook launch_web_app.yml
 
+# sub section makes a cron job to check if all of the servers applications are up to date every minute
 
+# Define the cron schedule (every minute)
+cronSchedule="* * * * * "
 
-# section makes a cron job to check if all of the servers applications are up to date every minute
-
-#chmod +x check_for_updates.sh
-#cronDirectory="$currentDir/check_for_updates.sh"
-#echo "$cronDirectory"
-#(crontab -l ; echo "* * * * * $cronDirectory") | crontab -
+chmod +x "$cronDir"
+(crontab -l ; echo "$cronSchedule$cronDir $workingDirectory") | crontab -
