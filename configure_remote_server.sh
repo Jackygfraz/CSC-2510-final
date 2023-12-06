@@ -4,7 +4,6 @@
 # Purpose: This script is used on a remote server in order to set up many server configurations
 # without this SSH, password, ansible.cfg and sshd.config will need to be manually adjusted.  
 
-
 #!/bin/bash
 # Set the SSH key file path
 ssh_key_file="$HOME/.ssh/id_rsa"
@@ -14,7 +13,7 @@ ssh-keygen -t rsa -b 2048 -f "$ssh_key_file" -N ""
 
 # validate and add ssh key to server
 eval "$(ssh-agent -s)"  
-ssh-add
+ssh-add $ssh_key_file
 
 # password must be changed to applebutter20
 echo "Please make your password "applebutter20" for proper function"
